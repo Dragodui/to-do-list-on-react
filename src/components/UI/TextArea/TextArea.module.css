@@ -1,0 +1,13 @@
+.textarea {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  outline: none;
+  box-shadow: -1px 3px 13px -4px rgb(66, 68, 90);
+  font-size: 20px;
+  resize: none;
+  width: 100%;
+  height: 200px;
+}
+
+/*# sourceMappingURL=TextArea.module.css.map */

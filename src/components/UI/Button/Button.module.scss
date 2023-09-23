@@ -1,0 +1,15 @@
+.button {
+  font-size: 20px;
+  color: black;
+  background: #ffe01b;
+  border: 1px solid black;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor:pointer;
+  font-weight: 600;
+  transition: .3s ease all;
+}
+
+.button:active{
+  transform: translateY(-5px);
+}
