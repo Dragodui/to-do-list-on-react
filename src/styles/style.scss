@@ -6,7 +6,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: "Work Sans";
+  font-family: "Work Sans", serif;
 }
 html, body {
   width: 100%;
@@ -38,11 +38,23 @@ html, body {
     gap: 20px;
     display: flex;
     width: 100%;
+    flex-direction: column;
     justify-content: space-between;
   }
+
   &__info {
+    width: 100%;
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+  }
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
   }
   &__title {
     font-size: 20px;
@@ -50,21 +62,33 @@ html, body {
   &__note {
     font-size: 30px;
   }
+  &__buttons {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    & button {
+      color: black;
+      background: none;
+      border: none;
+      cursor:pointer;
+      & img {
+        width: 30px;
+      }
+    }
+  }
   & p {
     overflow-wrap: break-word;
     word-break: break-all;
   }
-  & button {
-    font-size: 14px;
-    color: white;
-    background: #ff3737;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 6px;
-    cursor:pointer;
-  }
   & input {
     font-size: 20px;
+  }
+}
+@media (max-width: 400px) {
+  .item {
+    &__buttons {
+      flex-direction: column;
+    }
   }
 }
 .completed {
@@ -183,4 +207,67 @@ html, body {
   font-size: 40px;
   font-weight: 700;
   margin-top: 100px;
+}
+
+.delete {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: rgba(0,0,0,.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 15px;
+  z-index: 10;
+  &__item {
+    display: flex;
+    background: white;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 20px;
+    box-shadow: -1px 3px 13px -4px rgba(66, 68, 90, 1);
+    padding: 30px 60px;
+    width: 100%;
+    max-width: 400px;
+  }
+  &__title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+  }
+  &__buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &__button {
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 20px;
+    border: 1px solid black;
+    font-weight: 600;
+    cursor: pointer;
+    background: #ffffff;
+  }
+  &__yes {
+    background: #ff4a4a;
+    border: 1px solid #ff4a4a;
+    color: white;
+  }
+  &__opened {
+    display: flex;
+  }
+
+  &__closed {
+    display: none;
+  }
+}
+@media (max-width: 450px) {
+  .delete {
+    &__item {
+      padding: 10px 20px;
+    }
+  }
 }

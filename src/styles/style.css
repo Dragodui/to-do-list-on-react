@@ -3,7 +3,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: "Work Sans";
+  font-family: "Work Sans", serif;
 }
 
 html, body {
@@ -40,11 +40,22 @@ html, body {
   gap: 20px;
   display: flex;
   width: 100%;
+  flex-direction: column;
   justify-content: space-between;
 }
 .item__info {
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+}
+.item__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
 }
 .item__title {
   font-size: 20px;
@@ -52,23 +63,33 @@ html, body {
 .item__note {
   font-size: 30px;
 }
+.item__buttons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.item__buttons button {
+  color: black;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.item__buttons button img {
+  width: 30px;
+}
 .item p {
   overflow-wrap: break-word;
   word-break: break-all;
-}
-.item button {
-  font-size: 14px;
-  color: white;
-  background: #ff3737;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 6px;
-  cursor: pointer;
 }
 .item input {
   font-size: 20px;
 }
 
+@media (max-width: 400px) {
+  .item__buttons {
+    flex-direction: column;
+  }
+}
 .completed {
   text-decoration: line-through 4px;
   text-decoration-color: #ffe01b;
@@ -183,6 +204,67 @@ html, body {
   font-size: 40px;
   font-weight: 700;
   margin-top: 100px;
+}
+
+.delete {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 15px;
+  z-index: 10;
+}
+.delete__item {
+  display: flex;
+  background: white;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 20px;
+  box-shadow: -1px 3px 13px -4px rgb(66, 68, 90);
+  padding: 30px 60px;
+  width: 100%;
+  max-width: 400px;
+}
+.delete__title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+}
+.delete__buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.delete__button {
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 20px;
+  border: 1px solid black;
+  font-weight: 600;
+  cursor: pointer;
+  background: #ffffff;
+}
+.delete__yes {
+  background: #ff4a4a;
+  border: 1px solid #ff4a4a;
+  color: white;
+}
+.delete__opened {
+  display: flex;
+}
+.delete__closed {
+  display: none;
+}
+
+@media (max-width: 450px) {
+  .delete__item {
+    padding: 10px 20px;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */
