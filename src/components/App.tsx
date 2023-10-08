@@ -5,7 +5,6 @@ import ToDoList from "./ToDoList";
 import "../styles/style.css"
 import Button from "./UI/Button/Button";
 import Modal from "./UI/Modal/Modal";
-import ModalDelete from "./ModalDelete";
 
 
 const App: React.FC = () => {
@@ -16,27 +15,43 @@ const App: React.FC = () => {
     const [completedTodos, setCompletedTodos] = useState<ITodo[]>([]);
     const [isDeleteModalOpened, setIsDeleteModalOpened] = useState<boolean>(false);
 
+    useEffect(() => {
+        const savedUncompletedTodos = localStorage.getItem('uncompletedTodos');
+        const savedCompletedTodos = localStorage.getItem('completedTodos');
+
+        if (savedUncompletedTodos) setUncompletedTodos(JSON.parse(savedUncompletedTodos));
+        if (savedCompletedTodos) setCompletedTodos(JSON.parse(savedCompletedTodos));
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem('uncompletedTodos', JSON.stringify(uncompletedTodos));
+    }, [uncompletedTodos]);
+
+    useEffect(() => {
+        localStorage.setItem('completedTodos', JSON.stringify(completedTodos));
+    }, [completedTodos]);
 
     const toggleTodo = (id: number): void => {
         const todoToToggle = allTodos.find(todo => todo.id === id);
-        console.log(todoToToggle?.complete);
         if (todoToToggle) {
             if (!todoToToggle.complete) {
                 todoToToggle.complete = true;
                 setUncompletedTodos(prevTodos => prevTodos.filter(todo => todo.id !== id));
                 setCompletedTodos(prevCompletedTodos => [...prevCompletedTodos, todoToToggle]);
+                // localStorage.setItem('uncompletedTodos', JSON.stringify(uncompletedTodos));
+                // localStorage.setItem('completedTodos', JSON.stringify(completedTodos));
             }
             else if (todoToToggle.complete) {
-                console.log("value is true")
                 todoToToggle.complete = false;
                 setCompletedTodos(prevCompletedTodos => prevCompletedTodos.filter(todo => todo.id !== id));
                 setUncompletedTodos(prevTodos => [...prevTodos, todoToToggle]);
+                // localStorage.setItem('uncompletedTodos', JSON.stringify(uncompletedTodos));
+                // localStorage.setItem('completedTodos', JSON.stringify(completedTodos));
             }
         }
     };
 
     const deleteTodo =(id: number): void => {
-        console.log(`deleted: ${id}`);
         setAllTodos(prevAllTodos => prevAllTodos.filter(todo => todo.id !== id));
         setUncompletedTodos(prevUncompletedTodos => prevUncompletedTodos.filter(todo => todo.id !== id));
         setCompletedTodos(prevCompletedTodos => prevCompletedTodos.filter(todo => todo.id !== id));

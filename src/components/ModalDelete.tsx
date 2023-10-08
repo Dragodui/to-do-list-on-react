@@ -29,7 +29,6 @@ const ModalDelete: FC<ModalDeleteProps> = ({isModalOpened, setIsModalOpened, del
     }, [isModalOpened]);
 
     const handleKeyDownInDiv: KeyboardEventHandler<HTMLDivElement>  = (e) => {
-        console.log('key down')
         if (e.key === 'Escape') setIsModalOpened(false);
         if (e.key === 'Enter') handleDeleteTodo();
     };

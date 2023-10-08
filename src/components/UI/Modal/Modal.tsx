@@ -66,18 +66,21 @@ const Modal: FC<ModalProps> =
 
     const addTodo = () => {
         if (title && note) {
+            const id = Date.now();
             setAllTodos([...allTodos, {
-                id:Date.now(),
+                id:id,
                 title: title,
                 note: note,
                 complete:false
             }]);
             setUncompletedTodos([...uncompletedTodos, {
-                id:Date.now(),
+                id:id,
                 title: title,
                 note: note,
                 complete:false
             }]);
+            // localStorage.setItem('allTodos', JSON.stringify(allTodos));
+            // localStorage.setItem('uncompletedTodos', JSON.stringify(uncompletedTodos));
             setTitle('');
             setNote('');
             closeModal();
