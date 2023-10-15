@@ -1,12 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Work+Sans&display=swap');
-
-
+@import url('https://fonts.googleapis.com/css2?family=Gabarito&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito&family=Quicksand:wght@700&family=Tilt+Neon&display=swap');
 
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: "Work Sans", serif;
+  //font-family: 'Gabarito', sans-serif;
+  //font-family: 'Tilt Neon', sans-serif;
+  //font-family: 'Nunito', sans-serif;
+  font-family: 'Quicksand', sans-serif;
+  letter-spacing: 1.7px;
+
 }
 html, body {
   width: 100%;
@@ -120,6 +126,7 @@ html, body {
     box-shadow: -1px 3px 13px -4px rgba(66, 68, 90, 1);
     padding: 40px;
     border-radius: 20px;
+    min-width: 400px;
 
   }
   &__panel {
@@ -152,6 +159,13 @@ html, body {
   }
 }
 
+@media (max-width: 500px) {
+  .todo {
+    &__wrapper {
+      min-width: auto;
+    }
+  }
+}
 
 .checkbox-container {
   position: relative;

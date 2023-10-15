@@ -1,10 +1,7 @@
 import React, {Dispatch, SetStateAction} from 'react';
 import {IDeletedItem, ITodo} from "../types/data";
 // @ts-ignore
-import editIcon from "../assets/edit_icon.png";
-// @ts-ignore
-import deleteIcon from "../assets/delete_icon.svg";
-import ModalDelete from "./ModalDelete";
+import deleteIcon from "../assets/delete.svg";
 
 
 interface ITodoItem extends ITodo {

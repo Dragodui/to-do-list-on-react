@@ -6,6 +6,7 @@ import "../styles/style.css"
 import Button from "./UI/Button/Button";
 import Modal from "./UI/Modal/Modal";
 import ModalDelete from "./ModalDelete";
+import Search from "./Search";
 
 
 const App: React.FC = () => {
@@ -15,6 +16,7 @@ const App: React.FC = () => {
     const [completedTodos, setCompletedTodos] = useState<ITodo[]>([]);
     const [isDeleteModalOpened, setIsDeleteModalOpened] = useState<boolean>(false);
     const [deletedItem, setDeletedItem] = useState<IDeletedItem>({id: 1, complete: false});
+    const [searchTerm, setSearchTerm] = useState<string>('');
 
     useEffect(() => {
         const savedUncompletedTodos = localStorage.getItem('uncompletedTodos');
@@ -56,15 +58,27 @@ const App: React.FC = () => {
         else {
             setUncompletedTodos(prevUncompletedTodos => prevUncompletedTodos.filter(todo => todo.id !== id));
         }
-    }
+    };
+
+    const setSearch = (serachValue: string) => {
+        setSearchTerm(serachValue);
+    };
 
     const openModal = (): void => {
         setIsModalOpened(true);
     };
+
     const closeModal = (): void => {
         setIsModalOpened(false);
     };
 
+    const filteredUncompletedTodos: ITodo[] =
+        uncompletedTodos.filter(todo =>
+            todo.title.toLowerCase().includes(searchTerm) || todo.note.toLowerCase().includes(searchTerm));
+
+    const filteredCompletedTodos: ITodo[] =
+        completedTodos.filter(todo =>
+            todo.title.toLowerCase().includes(searchTerm) || todo.note.toLowerCase().includes(searchTerm));
 
     return (
         <div className="App">
@@ -88,34 +102,41 @@ const App: React.FC = () => {
                     />
                     <div className="todo__panel">
                         <Button onClick={openModal}>Add todo</Button>
+                        <Search setSearch={setSearch}/>
                     </div>
                     {
-                        uncompletedTodos.length
-                            ? <div className="todo__list">
-                                <h2 className="todo__listTitle">Uncompleted: </h2>
-                                <ToDoList
-                                    deleteTodo = {deleteTodo}
-                                    items={uncompletedTodos}
-                                    toggleTodo = {toggleTodo}
-                                    setDeletedItem={setDeletedItem}
-                                    setIsDeleteModalOpened = {setIsDeleteModalOpened}
-                                />
-                              </div>
-                            : ""
-                    }
-                    {
-                        completedTodos.length
-                            ? <div className="todo__list">
-                                <h2 className="todo__listTitle">Completed:</h2>
-                                <ToDoList
-                                    deleteTodo = {deleteTodo}
-                                    items={completedTodos}
-                                    toggleTodo={toggleTodo}
-                                    setDeletedItem={setDeletedItem}
-                                    setIsDeleteModalOpened = {setIsDeleteModalOpened}
-                                />
-                              </div>
-                            : ""
+                        (filteredCompletedTodos.length || filteredUncompletedTodos.length)
+                            ? <div className="todo__lists">
+                                {
+                                    filteredUncompletedTodos.length
+                                        ? <div className="todo__list">
+                                            <h2 className="todo__listTitle">Uncompleted: </h2>
+                                            <ToDoList
+                                                deleteTodo = {deleteTodo}
+                                                items={filteredUncompletedTodos}
+                                                toggleTodo = {toggleTodo}
+                                                setDeletedItem={setDeletedItem}
+                                                setIsDeleteModalOpened = {setIsDeleteModalOpened}
+                                            />
+                                        </div>
+                                        : ""
+                                }
+                                {
+                                    filteredCompletedTodos.length
+                                        ? <div className="todo__list">
+                                            <h2 className="todo__listTitle">Completed:</h2>
+                                            <ToDoList
+                                                deleteTodo = {deleteTodo}
+                                                items={filteredCompletedTodos}
+                                                toggleTodo={toggleTodo}
+                                                setDeletedItem={setDeletedItem}
+                                                setIsDeleteModalOpened = {setIsDeleteModalOpened}
+                                            />
+                                        </div>
+                                        : ""
+                                }
+                            </div>
+                            : <div className="todo__empty">there are no todos yet</div>
                     }
                 </div>
             </div>
