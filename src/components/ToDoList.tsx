@@ -9,6 +9,8 @@ interface ITodoList {
     deleteTodo : (id:number, completed: boolean) => void;
     setDeletedItem : (item: IDeletedItem) => void;
     setIsDeleteModalOpened: Dispatch<SetStateAction<boolean>>;
+    completedTodos: ITodo[];
+    uncompletedTodos: ITodo[];
 }
 
 const ToDoList:React.FC<ITodoList> = (props) => {
@@ -19,6 +21,8 @@ const ToDoList:React.FC<ITodoList> = (props) => {
         deleteTodo,
         setDeletedItem,
         setIsDeleteModalOpened,
+        completedTodos,
+        uncompletedTodos,
     } = props;
 
     return (
@@ -31,6 +35,8 @@ const ToDoList:React.FC<ITodoList> = (props) => {
                         deleteTodo = {deleteTodo}
                         setDeletedItem={setDeletedItem}
                         setIsModalOpened = {setIsDeleteModalOpened}
+                        completedTodos = {completedTodos}
+                        uncompletedTodos = {uncompletedTodos}
                         {...item}
                     />
                 )

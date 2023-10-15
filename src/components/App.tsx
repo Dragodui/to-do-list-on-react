@@ -117,6 +117,8 @@ const App: React.FC = () => {
                                                 toggleTodo = {toggleTodo}
                                                 setDeletedItem={setDeletedItem}
                                                 setIsDeleteModalOpened = {setIsDeleteModalOpened}
+                                                completedTodos = {completedTodos}
+                                                uncompletedTodos = {uncompletedTodos}
                                             />
                                         </div>
                                         : ""
@@ -131,6 +133,8 @@ const App: React.FC = () => {
                                                 toggleTodo={toggleTodo}
                                                 setDeletedItem={setDeletedItem}
                                                 setIsDeleteModalOpened = {setIsDeleteModalOpened}
+                                                completedTodos = {completedTodos}
+                                                uncompletedTodos = {uncompletedTodos}
                                             />
                                         </div>
                                         : ""

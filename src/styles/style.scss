@@ -20,6 +20,11 @@ html, body {
 #root {
   width: 100%;
 }
+.error {
+  color: #ff4d4d;
+  font-size: 20px;
+  margin: 10px 0;
+}
 .App {
   width: 100%;
   padding: 0 15px;
@@ -30,11 +35,10 @@ html, body {
 
 .item {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   box-shadow: -1px 3px 13px -4px rgba(66, 68, 90, 1);
   padding: 10px 20px;
   border-radius: 14px;
-  justify-content: space-between;
   margin-top: 30px;
   width:100%;
   max-width: 700px;
@@ -72,14 +76,14 @@ html, body {
     display: flex;
     align-items: center;
     gap: 5px;
-    & button {
-      color: black;
-      background: none;
-      border: none;
-      cursor:pointer;
-      & img {
-        width: 30px;
-      }
+  }
+  & button {
+    color: black;
+    background: none;
+    border: none;
+    cursor:pointer;
+    & img {
+      width: 30px;
     }
   }
   & p {
