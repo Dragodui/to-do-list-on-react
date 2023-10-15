@@ -4,12 +4,19 @@ import Button from "./UI/Button/Button";
 interface ModalDeleteProps {
     isModalOpened: boolean;
     setIsModalOpened: Dispatch<SetStateAction<boolean>>;
-    deleteTodo : (id:number) => void;
+    deleteTodo : (id:number, completed: boolean) => void;
     id: number;
+    complete: boolean;
 }
 
-const ModalDelete: FC<ModalDeleteProps> = ({isModalOpened, setIsModalOpened, deleteTodo, id}) => {
-
+const ModalDelete: FC<ModalDeleteProps> =
+    ({
+         isModalOpened,
+         setIsModalOpened,
+         deleteTodo,
+         id,
+         complete
+    }) => {
     useEffect(() => {
         const disableScroll = () => {
             document.body.classList.add('modal-open');
@@ -34,7 +41,7 @@ const ModalDelete: FC<ModalDeleteProps> = ({isModalOpened, setIsModalOpened, del
     };
 
     const handleDeleteTodo = (): void => {
-        deleteTodo(id);
+        deleteTodo(id, complete);
         setIsModalOpened(false);
     }
 

@@ -106,6 +106,12 @@ html, body {
 .todo__list {
   margin-top: 20px;
 }
+.todo__empty {
+  margin: 40px 0 20px 0;
+  font-size: 20px;
+  color: #aaaaaa;
+  text-align: center;
+}
 .todo__listTitle {
   font-weight: 600;
   font-size: 24px;
@@ -207,7 +213,7 @@ html, body {
 }
 
 .delete {
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   right: 0;

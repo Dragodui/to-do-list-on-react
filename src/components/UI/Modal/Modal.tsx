@@ -9,9 +9,7 @@ import {ITodo} from "../../../types/data";
 interface ModalProps {
     isModalOpened: boolean;
     closeModal: () => void;
-    allTodos: ITodo[];
     uncompletedTodos: ITodo[];
-    setAllTodos: (todos: ITodo[]) => void;
     setUncompletedTodos: (todos: ITodo[]) => void;
 }
 
@@ -19,9 +17,7 @@ const Modal: FC<ModalProps> =
     ({
          isModalOpened,
          closeModal,
-         allTodos,
          uncompletedTodos,
-         setAllTodos,
          setUncompletedTodos
     }) => {
 
@@ -67,24 +63,19 @@ const Modal: FC<ModalProps> =
     const addTodo = () => {
         if (title && note) {
             const id = Date.now();
-            setAllTodos([...allTodos, {
-                id:id,
-                title: title,
-                note: note,
-                complete:false
-            }]);
+
             setUncompletedTodos([...uncompletedTodos, {
                 id:id,
                 title: title,
                 note: note,
                 complete:false
             }]);
-            // localStorage.setItem('allTodos', JSON.stringify(allTodos));
-            // localStorage.setItem('uncompletedTodos', JSON.stringify(uncompletedTodos));
+
             setTitle('');
             setNote('');
-            closeModal();
             setIsError(false);
+
+            closeModal();
         }
         else {
             setIsError(true);

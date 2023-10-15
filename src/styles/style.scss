@@ -105,12 +105,18 @@ html, body {
   &__list {
     margin-top: 20px;
   }
+  &__empty {
+    margin: 40px 0 20px 0;
+    font-size: 20px;
+    color: #aaaaaa;
+    text-align: center;
+  }
   &__listTitle {
     font-weight: 600;
     font-size: 24px;
   }
   &__wrapper {
-    
+
     box-shadow: -1px 3px 13px -4px rgba(66, 68, 90, 1);
     padding: 40px;
     border-radius: 20px;
@@ -210,7 +216,7 @@ html, body {
 }
 
 .delete {
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   right: 0;
@@ -271,3 +277,4 @@ html, body {
     }
   }
 }
+

@@ -4,3 +4,8 @@ export interface ITodo {
     note:string;
     complete:boolean;
 }
+
+export interface IDeletedItem {
+    id: number;
+    complete: boolean;
+}

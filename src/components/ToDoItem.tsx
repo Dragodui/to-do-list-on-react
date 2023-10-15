@@ -1,5 +1,5 @@
 import React, {Dispatch, SetStateAction} from 'react';
-import {ITodo} from "../types/data";
+import {IDeletedItem, ITodo} from "../types/data";
 // @ts-ignore
 import editIcon from "../assets/edit_icon.png";
 // @ts-ignore
@@ -9,9 +9,9 @@ import ModalDelete from "./ModalDelete";
 
 interface ITodoItem extends ITodo {
     toggleTodo : (id : number) => void;
-    deleteTodo : (id:number) => void;
-    isDeleteModalOpened: boolean;
-    setIsDeleteModalOpened: Dispatch<SetStateAction<boolean>>
+    deleteTodo : (id:number, completed: boolean) => void;
+    setDeletedItem : (item: IDeletedItem) => void;
+    setIsModalOpened: Dispatch<SetStateAction<boolean>>;
 }
 
 const ToDoItem :React.FC<ITodoItem> = (props) => {
@@ -22,11 +22,15 @@ const ToDoItem :React.FC<ITodoItem> = (props) => {
         note,
         complete,
         toggleTodo,
-        deleteTodo,
-        isDeleteModalOpened,
-        setIsDeleteModalOpened
+        setDeletedItem,
+        setIsModalOpened,
     } = props;
-    
+
+    const setItem = () => {
+        setDeletedItem({id: id, complete: complete});
+        setIsModalOpened(prevState => !prevState);
+    };
+
     return (
         <div className="item">
            <div className="item__text">
@@ -34,7 +38,7 @@ const ToDoItem :React.FC<ITodoItem> = (props) => {
                    <p className={`item__title ${complete ? "completed" : ""}`}>{title}</p>
                    <div className="item__buttons">
                        {/*<button ><img src={editIcon} alt=""/></button>*/}
-                       <button onClick={() => setIsDeleteModalOpened(true)}><img src={deleteIcon} alt=""/></button>
+                       <button onClick={setItem}><img src={deleteIcon} alt=""/></button>
                    </div>
                </div>
                <div className="item__info">
@@ -45,7 +49,6 @@ const ToDoItem :React.FC<ITodoItem> = (props) => {
                    </label>
                </div>
            </div>
-            <ModalDelete id={id} deleteTodo={deleteTodo} isModalOpened={isDeleteModalOpened} setIsModalOpened={setIsDeleteModalOpened}/>
         </div>
     );
 };
