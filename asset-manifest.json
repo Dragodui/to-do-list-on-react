@@ -1,16 +1,17 @@
 {
   "files": {
-    "main.css": "/to-do-list-on-react/static/css/main.406f012d.css",
-    "main.js": "/to-do-list-on-react/static/js/main.09c80950.js",
+    "main.css": "/to-do-list-on-react/static/css/main.ca70e9f5.css",
+    "main.js": "/to-do-list-on-react/static/js/main.cbc90480.js",
     "static/media/edit.svg": "/to-do-list-on-react/static/media/edit.05ddc3ed170fc5aded5eb4a3df1602a1.svg",
     "static/media/delete.svg": "/to-do-list-on-react/static/media/delete.2c2f9178d743c11f7cea921d412a7e5f.svg",
     "static/media/save.svg": "/to-do-list-on-react/static/media/save.1c2e3c136cf59bf4ace403f51282235e.svg",
+    "static/media/checked.svg": "/to-do-list-on-react/static/media/checked.ddd7fb3534de70c4acb235b79a9a9e07.svg",
     "index.html": "/to-do-list-on-react/index.html",
-    "main.406f012d.css.map": "/to-do-list-on-react/static/css/main.406f012d.css.map",
-    "main.09c80950.js.map": "/to-do-list-on-react/static/js/main.09c80950.js.map"
+    "main.ca70e9f5.css.map": "/to-do-list-on-react/static/css/main.ca70e9f5.css.map",
+    "main.cbc90480.js.map": "/to-do-list-on-react/static/js/main.cbc90480.js.map"
   },
   "entrypoints": [
-    "static/css/main.406f012d.css",
-    "static/js/main.09c80950.js"
+    "static/css/main.ca70e9f5.css",
+    "static/js/main.cbc90480.js"
   ]
 }
