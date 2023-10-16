@@ -7,7 +7,8 @@ import editIcon from "../assets/edit.svg";
 // @ts-ignore
 import saveIcon from "../assets/save.svg";
 import Input from "./UI/Input/Input";
-
+// @ts-ignore
+import checkIcon from "../assets/checked.svg";
 
 interface ITodoItem extends ITodo {
     toggleTodo : (id : number) => void;
@@ -103,10 +104,16 @@ const ToDoItem :React.FC<ITodoItem> = (props) => {
                             }}/>
                         : <div className="item__info">
                            <p className={`item__note ${complete ? "completed" : ""}`}>{editNote}</p>
-                           <label className="checkbox-container">
-                               <input type="checkbox" checked={complete} onChange={() => toggleTodo(id)}/>
-                               <span className="checkmark"></span>
-                           </label>
+                           <div
+                               onClick={() => toggleTodo(id)}
+                               className="item__toggle"
+                           >
+                               {
+                                   complete
+                                       ? <img src={checkIcon} alt=""/>
+                                       : <div className="item__circle"></div>
+                               }
+                           </div>
                           </div>
                }
            </div>
