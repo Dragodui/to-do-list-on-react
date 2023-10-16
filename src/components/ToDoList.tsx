@@ -1,8 +1,8 @@
 import React, {Dispatch, SetStateAction} from 'react';
-import {IDeletedItem, ITodo} from "../types/data";
+import {IChosenItem, IDeletedItem, ITodo} from "../types/data";
 import ToDoItem from "./ToDoItem";
-import {Simulate} from "react-dom/test-utils";
-import toggle = Simulate.toggle;
+
+
 interface ITodoList {
     items : ITodo[];
     toggleTodo : (id:number) => void;
@@ -11,6 +11,10 @@ interface ITodoList {
     setIsDeleteModalOpened: Dispatch<SetStateAction<boolean>>;
     completedTodos: ITodo[];
     uncompletedTodos: ITodo[];
+    chosen: IChosenItem[];
+    setChosen: (items: IChosenItem[]) => void;
+    setPriority: (num: number) => void;
+    handleChangePriority: (index:number) => void;
 }
 
 const ToDoList:React.FC<ITodoList> = (props) => {
@@ -23,6 +27,10 @@ const ToDoList:React.FC<ITodoList> = (props) => {
         setIsDeleteModalOpened,
         completedTodos,
         uncompletedTodos,
+        setPriority,
+        chosen,
+        setChosen,
+        handleChangePriority,
     } = props;
 
     return (
@@ -37,6 +45,10 @@ const ToDoList:React.FC<ITodoList> = (props) => {
                         setIsModalOpened = {setIsDeleteModalOpened}
                         completedTodos = {completedTodos}
                         uncompletedTodos = {uncompletedTodos}
+                        setPriority={setPriority}
+                        chosen={chosen}
+                        setChosen={setChosen}
+                        handleChangePriority={handleChangePriority}
                         {...item}
                     />
                 )

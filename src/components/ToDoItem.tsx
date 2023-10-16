@@ -1,5 +1,5 @@
 import React, {Dispatch, SetStateAction, useState} from 'react';
-import {IDeletedItem, ITodo} from "../types/data";
+import {IChosenItem, IDeletedItem, ITodo} from "../types/data";
 // @ts-ignore
 import deleteIcon from "../assets/delete.svg";
 // @ts-ignore
@@ -9,6 +9,7 @@ import saveIcon from "../assets/save.svg";
 import Input from "./UI/Input/Input";
 // @ts-ignore
 import checkIcon from "../assets/checked.svg";
+import PriorityChoosing from "./UI/PriorityChoosing/PriorityChoosing";
 
 interface ITodoItem extends ITodo {
     toggleTodo : (id : number) => void;
@@ -17,6 +18,10 @@ interface ITodoItem extends ITodo {
     setIsModalOpened: Dispatch<SetStateAction<boolean>>;
     completedTodos: ITodo[];
     uncompletedTodos: ITodo[];
+    chosen: IChosenItem[];
+    setChosen: (items: IChosenItem[]) => void;
+    setPriority: (num: number) => void;
+    handleChangePriority: (index:number) => void;
 }
 
 const ToDoItem :React.FC<ITodoItem> = (props) => {
@@ -26,23 +31,45 @@ const ToDoItem :React.FC<ITodoItem> = (props) => {
         title,
         note,
         complete,
+        priority,
         toggleTodo,
         setDeletedItem,
         setIsModalOpened,
         completedTodos,
         uncompletedTodos,
+        setPriority,
+        chosen,
+        setChosen,
+        handleChangePriority,
     } = props;
 
     const [isEditable, setIsEditable] = useState(false);
 
     const [editTitle, setEditTitle] = useState<string>(title);
     const [editNote, setEditNote] = useState<string>(note);
+    const [editChosen, setEditChosen] = useState<IChosenItem[]>([
+        { id: 0, chosen: false },
+        { id: 1, chosen: false },
+        { id: 2, chosen: false }
+    ]);
+    const [editPriority, setEditPriority] = useState<number>(1);
 
     const [error, setError] = useState<string>('');
 
     const setDeleteItem = () => {
         setDeletedItem({id: id, complete: complete});
         setIsModalOpened(prevState => !prevState);
+    };
+
+    const handleChangeEditPriority = (index: number) => {
+        const newChosen = chosen.map(
+            (
+                item, i) => (
+                { ...item, chosen: i === index }
+            )
+        );
+        setEditChosen(newChosen);
+        setEditPriority(index + 1);
     };
 
     const editItem = () => {
@@ -52,18 +79,23 @@ const ToDoItem :React.FC<ITodoItem> = (props) => {
 
     const saveEdit = () => {
         if (editTitle && editNote) {
+            console.log(editPriority)
             if (complete) {
                 const item = completedTodos.filter(todo => todo.id === id)[0];
                 item.title = editTitle;
                 item.note = editNote;
+                item.priority = editPriority;
                 localStorage.setItem("completedTodos", JSON.stringify(completedTodos));
             }
             else {
                 const item = uncompletedTodos.filter(todo => todo.id === id)[0];
                 item.title = editTitle;
                 item.note = editNote;
+                item.priority = editPriority;
                 localStorage.setItem("uncompletedTodos", JSON.stringify(uncompletedTodos));
             }
+
+            setPriority(editPriority);
             setIsEditable(false);
         }
         else {
@@ -77,20 +109,31 @@ const ToDoItem :React.FC<ITodoItem> = (props) => {
                <div className="item__header">
                    {
                        isEditable
-                                ? <Input placeholder="Title" type="text" value={editTitle} onChange =
-                               {
-                                    e => {
-                                        setEditTitle(e.target.value);
-                                        setError('');
-                                    }}/>
-                                : <p className={`item__title ${complete ? "completed" : ""}`}>{editTitle}</p>
+                                ? <div>
+                               <Input style={{marginBottom: 20}} placeholder="Title" type="text" value={editTitle} onChange =
+                                   {
+                                       e => {
+                                           setEditTitle(e.target.value);
+                                           setError('');
+                                       }}/>
+                                <PriorityChoosing
+                                     setPriority={setEditPriority}
+                                     chosen={editChosen}
+                                     setChosen={setEditChosen}
+                                     handleChangePriority={handleChangeEditPriority}
+                                />
+                                </div>
+                                : <div className="item__priority">
+                                    <div className={`priority${priority} priority`}>{priority}</div>
+                                    <p className={`item__title ${complete ? "completed" : ""}`}>{editTitle}</p>
+                                  </div>
                    }
                    {
                        isEditable
-                            ? <button onClick={saveEdit}><img src={saveIcon} alt=""/></button>
+                            ? <button style={{border:"none", paddingTop:10}} onClick={saveEdit}><img src={saveIcon} alt=""/></button>
                             : <div className="item__buttons">
-                               <button onClick={editItem}><img src={editIcon} alt=""/></button>
-                               <button onClick={setDeleteItem}><img src={deleteIcon} alt=""/></button>
+                               <button style={{border:"none"}} onClick={editItem}><img src={editIcon} alt=""/></button>
+                               <button style={{border:"none"}} onClick={setDeleteItem}><img src={deleteIcon} alt=""/></button>
                               </div>
                    }
                </div>
@@ -116,6 +159,7 @@ const ToDoItem :React.FC<ITodoItem> = (props) => {
                            </div>
                           </div>
                }
+
            </div>
             <p className="error">{error}</p>
         </div>

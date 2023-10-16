@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useState} from "react";
-import {IDeletedItem, ITodo} from "../types/data";
+import {IChosenItem, IDeletedItem, ITodo} from "../types/data";
 import ToDoList from "./ToDoList";
 import "../styles/style.css"
 import Button from "./UI/Button/Button";
@@ -17,6 +17,12 @@ const App: React.FC = () => {
     const [isDeleteModalOpened, setIsDeleteModalOpened] = useState<boolean>(false);
     const [deletedItem, setDeletedItem] = useState<IDeletedItem>({id: 1, complete: false});
     const [searchTerm, setSearchTerm] = useState<string>('');
+    const [priority, setPriority] = useState<number>(0);
+    const [chosen, setChosen] = useState<IChosenItem[]>([
+        { id: 0, chosen: false },
+        { id: 1, chosen: false },
+        { id: 2, chosen: false }
+    ]);
 
     useEffect(() => {
         const savedUncompletedTodos = localStorage.getItem('uncompletedTodos');
@@ -72,6 +78,17 @@ const App: React.FC = () => {
         setIsModalOpened(false);
     };
 
+    const handleChangePriority = (index: number) => {
+        const newChosen = chosen.map(
+            (
+                item, i) => (
+                { ...item, chosen: i === index }
+            )
+        );
+        setChosen(newChosen);
+        setPriority(index + 1);
+    };
+
     const filteredUncompletedTodos: ITodo[] =
         uncompletedTodos.filter(todo =>
             todo.title.toLowerCase().includes(searchTerm) || todo.note.toLowerCase().includes(searchTerm));
@@ -92,6 +109,11 @@ const App: React.FC = () => {
                         closeModal={closeModal}
                         uncompletedTodos={uncompletedTodos}
                         setUncompletedTodos={setUncompletedTodos}
+                        chosen={chosen}
+                        setChosen={setChosen}
+                        setPriority={setPriority}
+                        priority={priority}
+                        handleChangePriority={handleChangePriority}
                     />
                     <ModalDelete
                         id={deletedItem?.id}
@@ -119,6 +141,10 @@ const App: React.FC = () => {
                                                 setIsDeleteModalOpened = {setIsDeleteModalOpened}
                                                 completedTodos = {completedTodos}
                                                 uncompletedTodos = {uncompletedTodos}
+                                                setChosen={setChosen}
+                                                setPriority={setPriority}
+                                                chosen={chosen}
+                                                handleChangePriority={handleChangePriority}
                                             />
                                         </div>
                                         : ""
@@ -135,6 +161,10 @@ const App: React.FC = () => {
                                                 setIsDeleteModalOpened = {setIsDeleteModalOpened}
                                                 completedTodos = {completedTodos}
                                                 uncompletedTodos = {uncompletedTodos}
+                                                setChosen={setChosen}
+                                                setPriority={setPriority}
+                                                chosen={chosen}
+                                                handleChangePriority={handleChangePriority}
                                             />
                                         </div>
                                         : ""
