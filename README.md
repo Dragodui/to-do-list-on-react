@@ -7,6 +7,7 @@ Here you can see the demo of this project: <br/>
 https://dragodui.github.io/to-do-list-on-react/
 
 <img src="https://mini.s-shot.ru/1920x1200/JPEG/1920/Z240/?https%3A%2F%2Fdragodui.github.io%2Fto-do-list-on-react%2F"/>
+
 ## Technologies
 
 <div style="display: flex;">
