@@ -181,6 +181,15 @@ html, body {
   border-radius: 20px;
   min-width: 400px;
 }
+.todo__sort {
+  font-size: 20px;
+  color: black;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: 0.3s ease all;
+}
 .todo__panel {
   display: flex;
   flex-direction: column;
@@ -282,5 +291,3 @@ html, body {
     padding: 10px 20px;
   }
 }
-
-/*# sourceMappingURL=style.css.map */

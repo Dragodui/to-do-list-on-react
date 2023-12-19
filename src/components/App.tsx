@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useLayoutEffect} from 'react';
 import {useState} from "react";
 import {IChosenItem, IDeletedItem, ITodo} from "../types/data";
 import ToDoList from "./ToDoList";
@@ -12,12 +12,15 @@ import Search from "./Search";
 const App: React.FC = () => {
 
     const [uncompletedTodos, setUncompletedTodos] = useState<ITodo[]>([]);
+    const [filteredUncompletedTodos, setFilteredUncompletedTodos] = useState<ITodo[]>([]);
+    const [filteredCompletedTodos, setFilteredCompletedTodos] = useState<ITodo[]>([]);
     const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
     const [completedTodos, setCompletedTodos] = useState<ITodo[]>([]);
     const [isDeleteModalOpened, setIsDeleteModalOpened] = useState<boolean>(false);
     const [deletedItem, setDeletedItem] = useState<IDeletedItem>({id: 1, complete: false});
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [priority, setPriority] = useState<number>(0);
+    const [sortingMethod, setSortingMethod] = useState<string>("default");
     const [chosen, setChosen] = useState<IChosenItem[]>([
         { id: 0, chosen: false },
         { id: 1, chosen: false },
@@ -25,11 +28,11 @@ const App: React.FC = () => {
     ]);
 
     useEffect(() => {
-        const savedUncompletedTodos = localStorage.getItem('uncompletedTodos');
-        const savedCompletedTodos = localStorage.getItem('completedTodos');
+        const savedUncompletedTodos = JSON.parse(localStorage.getItem('uncompletedTodos') || "[]");
+        const savedCompletedTodos = JSON.parse(localStorage.getItem('completedTodos') || "[]");
 
-        if (savedUncompletedTodos) setUncompletedTodos(JSON.parse(savedUncompletedTodos));
-        if (savedCompletedTodos) setCompletedTodos(JSON.parse(savedCompletedTodos));
+        setUncompletedTodos(savedUncompletedTodos);
+        setCompletedTodos(savedCompletedTodos);
     }, []);
 
     useEffect(() => {
@@ -39,6 +42,28 @@ const App: React.FC = () => {
     useEffect(() => {
         localStorage.setItem('completedTodos', JSON.stringify(completedTodos));
     }, [completedTodos]);
+
+    useEffect(() => {
+        if (uncompletedTodos.length && filteredUncompletedTodos.length) {
+            const sortedTodos = [...filteredUncompletedTodos].sort((a, b) => {
+                switch (sortingMethod) {
+                    case "name":
+                        return a.title.localeCompare(b.title);
+                    case "description":
+                        return a.note.localeCompare(b.note);
+                    case "priority":
+                        return a.priority - b.priority;
+                    case "default":
+                        return 0;
+                    default:
+                        return 0;
+                }
+            });
+            setFilteredUncompletedTodos(sortedTodos);
+        }
+    }, [sortingMethod, uncompletedTodos, filteredUncompletedTodos]);
+    
+    
 
     const toggleTodo = (id: number): void => {
         const todoToToggle = uncompletedTodos.find(todo => todo.id === id) || completedTodos.find(todo => todo.id === id);
@@ -89,13 +114,16 @@ const App: React.FC = () => {
         setPriority(index + 1);
     };
 
-    const filteredUncompletedTodos: ITodo[] =
-        uncompletedTodos.filter(todo =>
-            todo.title.toLowerCase().includes(searchTerm) || todo.note.toLowerCase().includes(searchTerm));
+    useEffect(() => {
+        setFilteredUncompletedTodos(
+            uncompletedTodos.filter(todo =>
+                todo.title.toLowerCase().includes(searchTerm.toLowerCase()) || todo.note.toLowerCase().includes(searchTerm.toLowerCase())));
 
-    const filteredCompletedTodos: ITodo[] =
-        completedTodos.filter(todo =>
-            todo.title.toLowerCase().includes(searchTerm) || todo.note.toLowerCase().includes(searchTerm));
+        setFilteredCompletedTodos(
+            completedTodos.filter(todo =>
+                todo.title.toLowerCase().includes(searchTerm.toLowerCase()) || todo.note.toLowerCase().includes(searchTerm.toLowerCase())));
+
+    }, [uncompletedTodos, completedTodos, searchTerm]);
 
     return (
         <div className="App">
@@ -124,6 +152,12 @@ const App: React.FC = () => {
                     />
                     <div className="todo__panel">
                         <Button onClick={openModal}>Add todo</Button>
+                        <select className="todo__sort" onChange={e => setSortingMethod(e.target.value)}>
+                            <option value="default">Sort by</option>
+                            <option value="name">name</option>
+                            <option value="description">description</option>
+                            <option value="priority">priority</option>
+                        </select>
                         <Search setSearch={setSearch}/>
                     </div>
                     {
