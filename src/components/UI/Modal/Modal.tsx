@@ -14,27 +14,22 @@ interface ModalProps {
     setUncompletedTodos: (todos: ITodo[]) => void;
     chosen: IChosenItem[];
     setChosen: (items: IChosenItem[]) => void;
-    setPriority: (num: number) => void;
-    priority: number;
-    handleChangePriority: (index:number) => void;
 }
 
 const Modal: FC<ModalProps> =
     ({
-         isModalOpened,
-         closeModal,
-         uncompletedTodos,
-         setUncompletedTodos,
-         chosen,
-         setChosen,
-         setPriority,
-         priority,
-         handleChangePriority
+        isModalOpened,
+        closeModal,
+        uncompletedTodos,
+        setUncompletedTodos,
+        chosen,
+        setChosen,
     }) => {
 
     const [title, setTitle] = useState<string>('');
     const [note, setNote] = useState<string>('');
     const [isError, setIsError] = useState<boolean>(false);
+    const [priority, setPriority] = useState(0);
 
     useEffect(() => {
         const disableScroll = () => {
@@ -54,14 +49,23 @@ const Modal: FC<ModalProps> =
         };
     }, [isModalOpened]);
 
-
-
-        const handleTitle: React.ChangeEventHandler<HTMLInputElement> = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleTitle: React.ChangeEventHandler<HTMLInputElement> = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.target.value);
     };
 
     const handleNote: ChangeEventHandler<HTMLTextAreaElement> = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setNote(e.target.value);
+    };
+
+    const handleChangePriority = (index: number) => {
+        const newChosen = chosen.map(
+            (
+                item, i) => (
+                { ...item, chosen: i === index }
+            )
+        );
+        setChosen(newChosen);
+        setPriority(index + 1);
     };
 
     const handleKeyDownInText: KeyboardEventHandler<HTMLInputElement | HTMLTextAreaElement>  = (e) => {
@@ -73,7 +77,7 @@ const Modal: FC<ModalProps> =
     };
 
     const addTodo = () => {
-        if (title && note) {
+        if (title && note && priority) {
             const id = Date.now();
 
             setUncompletedTodos([...uncompletedTodos, {
@@ -86,6 +90,7 @@ const Modal: FC<ModalProps> =
 
             setTitle('');
             setNote('');
+            setPriority(0);
             setIsError(false);
             setChosen([
                 { id: 0, chosen: false },

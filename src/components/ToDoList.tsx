@@ -29,16 +29,15 @@ const ToDoList:React.FC<ITodoList> = (props) => {
         uncompletedTodos,
         setPriority,
         chosen,
-        setChosen,
-        handleChangePriority,
     } = props;
 
     return (
         <div className="list">
             {
-                items.map(item =>
+                items.map((item: ITodo) =>
                     <ToDoItem
                         key={item.id}
+                        item={item}
                         toggleTodo = {toggleTodo}
                         deleteTodo = {deleteTodo}
                         setDeletedItem={setDeletedItem}
@@ -47,8 +46,6 @@ const ToDoList:React.FC<ITodoList> = (props) => {
                         uncompletedTodos = {uncompletedTodos}
                         setPriority={setPriority}
                         chosen={chosen}
-                        setChosen={setChosen}
-                        handleChangePriority={handleChangePriority}
                         {...item}
                     />
                 )

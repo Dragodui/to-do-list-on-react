@@ -11,7 +11,8 @@ import Input from "./UI/Input/Input";
 import checkIcon from "../assets/checked.svg";
 import PriorityChoosing from "./UI/PriorityChoosing/PriorityChoosing";
 
-interface ITodoItem extends ITodo {
+interface ITodoItem {
+    item: ITodo,
     toggleTodo : (id : number) => void;
     deleteTodo : (id:number, completed: boolean) => void;
     setDeletedItem : (item: IDeletedItem) => void;
@@ -19,19 +20,13 @@ interface ITodoItem extends ITodo {
     completedTodos: ITodo[];
     uncompletedTodos: ITodo[];
     chosen: IChosenItem[];
-    setChosen: (items: IChosenItem[]) => void;
     setPriority: (num: number) => void;
-    handleChangePriority: (index:number) => void;
 }
 
 const ToDoItem :React.FC<ITodoItem> = (props) => {
 
     const {
-        id,
-        title,
-        note,
-        complete,
-        priority,
+        item,
         toggleTodo,
         setDeletedItem,
         setIsModalOpened,
@@ -39,25 +34,22 @@ const ToDoItem :React.FC<ITodoItem> = (props) => {
         uncompletedTodos,
         setPriority,
         chosen,
-        setChosen,
-        handleChangePriority,
     } = props;
 
     const [isEditable, setIsEditable] = useState(false);
-
-    const [editTitle, setEditTitle] = useState<string>(title);
-    const [editNote, setEditNote] = useState<string>(note);
+    const [editTitle, setEditTitle] = useState<string>(item.title);
+    const [editNote, setEditNote] = useState<string>(item.note);
     const [editChosen, setEditChosen] = useState<IChosenItem[]>([
-        { id: 0, chosen: false },
-        { id: 1, chosen: false },
-        { id: 2, chosen: false }
+        { id: 0, chosen: item.priority === 1 },
+        { id: 1, chosen: item.priority === 2 },
+        { id: 2, chosen: item.priority === 3 }
     ]);
     const [editPriority, setEditPriority] = useState<number>(1);
 
     const [error, setError] = useState<string>('');
 
     const setDeleteItem = () => {
-        setDeletedItem({id: id, complete: complete});
+        setDeletedItem({id: item.id, complete: item.complete});
         setIsModalOpened(prevState => !prevState);
     };
 
@@ -79,19 +71,18 @@ const ToDoItem :React.FC<ITodoItem> = (props) => {
 
     const saveEdit = () => {
         if (editTitle && editNote) {
-            console.log(editPriority)
-            if (complete) {
-                const item = completedTodos.filter(todo => todo.id === id)[0];
-                item.title = editTitle;
-                item.note = editNote;
-                item.priority = editPriority;
+            if (item.complete) {
+                const changeItem = completedTodos.filter(todo => todo.id === item.id)[0];
+                changeItem.title = editTitle;
+                changeItem.note = editNote;
+                changeItem.priority = editPriority;
                 localStorage.setItem("completedTodos", JSON.stringify(completedTodos));
             }
             else {
-                const item = uncompletedTodos.filter(todo => todo.id === id)[0];
-                item.title = editTitle;
-                item.note = editNote;
-                item.priority = editPriority;
+                const changeItem = uncompletedTodos.filter(todo => todo.id === item.id)[0];
+                changeItem.title = editTitle;
+                changeItem.note = editNote;
+                changeItem.priority = editPriority;
                 localStorage.setItem("uncompletedTodos", JSON.stringify(uncompletedTodos));
             }
 
@@ -124,8 +115,8 @@ const ToDoItem :React.FC<ITodoItem> = (props) => {
                                 />
                                 </div>
                                 : <div className="item__priority">
-                                    <div className={`priority${priority} priority`}>{priority}</div>
-                                    <p className={`item__title ${complete ? "completed" : ""}`}>{editTitle}</p>
+                                    <div className={`priority${item.priority} priority`}>{item.priority}</div>
+                                    <p className={`item__title ${item.complete ? "completed" : ""}`}>{editTitle}</p>
                                   </div>
                    }
                    {
@@ -146,13 +137,13 @@ const ToDoItem :React.FC<ITodoItem> = (props) => {
                                 setError('');
                             }}/>
                         : <div className="item__info">
-                           <p className={`item__note ${complete ? "completed" : ""}`}>{editNote}</p>
+                           <p className={`item__note ${item.complete ? "completed" : ""}`}>{editNote}</p>
                            <div
-                               onClick={() => toggleTodo(id)}
+                               onClick={() => toggleTodo(item.id)}
                                className="item__toggle"
                            >
                                {
-                                   complete
+                                   item.complete
                                        ? <img src={checkIcon} alt=""/>
                                        : <div className="item__circle"></div>
                                }

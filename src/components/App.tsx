@@ -61,7 +61,7 @@ const App: React.FC = () => {
             });
             setFilteredUncompletedTodos(sortedTodos);
         }
-    }, [sortingMethod, uncompletedTodos, filteredUncompletedTodos]);
+    }, [sortingMethod]);
     
     
 
@@ -89,6 +89,7 @@ const App: React.FC = () => {
         else {
             setUncompletedTodos(prevUncompletedTodos => prevUncompletedTodos.filter(todo => todo.id !== id));
         }
+        setSortingMethod("default");
     };
 
     const setSearch = (serachValue: string) => {
@@ -139,9 +140,6 @@ const App: React.FC = () => {
                         setUncompletedTodos={setUncompletedTodos}
                         chosen={chosen}
                         setChosen={setChosen}
-                        setPriority={setPriority}
-                        priority={priority}
-                        handleChangePriority={handleChangePriority}
                     />
                     <ModalDelete
                         id={deletedItem?.id}
