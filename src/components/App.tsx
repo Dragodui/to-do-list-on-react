@@ -150,13 +150,13 @@ const App: React.FC = () => {
                     />
                     <div className="todo__panel">
                         <Button onClick={openModal}>Add todo</Button>
+                        <Search setSearch={setSearch}/>
                         <select className="todo__sort" onChange={e => setSortingMethod(e.target.value)}>
                             <option value="default">Sort by</option>
                             <option value="name">name</option>
                             <option value="description">description</option>
                             <option value="priority">priority</option>
                         </select>
-                        <Search setSearch={setSearch}/>
                     </div>
                     {
                         (filteredCompletedTodos.length || filteredUncompletedTodos.length)
